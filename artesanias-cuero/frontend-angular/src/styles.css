@@ -1,0 +1,18 @@
+/* Forzar cursor predeterminado del sistema en TODA la aplicación */
+* {
+  cursor: default !important;
+}
+
+/* Excepciones: elementos interactivos */
+a:hover, 
+button:hover, 
+.btn:hover, 
+[role="button"]:hover {
+  cursor: pointer !important;
+}
+
+input, 
+textarea, 
+select {
+  cursor: text !important;
+}

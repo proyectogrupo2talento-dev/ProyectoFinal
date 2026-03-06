@@ -1,0 +1,69 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Catálogo de Materiales</h2>
+
+  <!-- Filtro por categoría -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="filtroCategoria" class="form-label">Filtrar por categoría:</label>
+      <select 
+        id="filtroCategoria" 
+        class="form-select" 
+        [(ngModel)]="filtroCategoria">
+        <option value="">Todas las categorías</option>
+        <option value="Materia prima">Materia prima</option>
+        <option value="Insumos">Insumos</option>
+        <option value="Accesorios">Accesorios</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Contador de resultados -->
+  <div *ngIf="!loading" class="text-muted small mb-2">
+    Mostrando {{ materialesFiltrados.length }} de {{ materiales.length }} materiales
+    <span *ngIf="filtroCategoria" class="fw-normal">· Filtro: <strong>{{ filtroCategoria }}</strong></span>
+  </div>
+
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Tabla de materiales -->
+  <div *ngIf="!loading" class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Unidad</th>
+          <th>Stock Mín.</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of materialesFiltrados">
+          <td>{{ m.id }}</td>
+          <td><strong>{{ m.name }}</strong></td>
+          <td>{{ m.category }}</td>
+          <td>{{ m.baseUnit }}</td>
+          <td>{{ m.stockMin }}</td>
+          <td>
+            <span class="badge" 
+                  [class.bg-success]="m.active" 
+                  [class.bg-secondary]="!m.active">
+              {{ m.active ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mensaje sin resultados -->
+  <div *ngIf="!loading && materialesFiltrados.length === 0" class="alert alert-info">
+    No hay materiales que coincidan con el filtro seleccionado.
+  </div>
+</div>

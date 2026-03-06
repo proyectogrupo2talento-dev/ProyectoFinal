@@ -1,0 +1,10 @@
+{
+  "java.project.sourcePaths": ["src/main/java"],
+  "java.project.outputPath": "target/classes",
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar"
+  ],
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.maven.enabled": true,
+  "java.server.launchMode": "Standard"
+}

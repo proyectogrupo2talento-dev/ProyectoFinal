@@ -1,0 +1,4 @@
+com\artesanias\ArtesaniasApplication.class
+com\artesanias\model\Material.class
+com\artesanias\dao\MaterialDAO.class
+com\artesanias\MaterialController.class
