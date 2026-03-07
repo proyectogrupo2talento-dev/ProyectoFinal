@@ -1,5 +1,5 @@
 package com.artesanias.controller;
 
-public class Order {
+public class OrderItemController {
 
 }

@@ -1,5 +1,5 @@
 package com.artesanias.model;
 
-public class Order {
+public class OrderItem {
 
 }
