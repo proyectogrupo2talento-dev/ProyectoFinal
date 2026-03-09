@@ -1,4 +1,13 @@
-C:\0lgoi\Programación\artesanias-cuero\backend-java\src\main\java\com\artesanias\MaterialController.java
-C:\0lgoi\Programación\artesanias-cuero\backend-java\src\main\java\com\artesanias\dao\MaterialDAO.java
-C:\0lgoi\Programación\artesanias-cuero\backend-java\src\main\java\com\artesanias\ArtesaniasApplication.java
-C:\0lgoi\Programación\artesanias-cuero\backend-java\src\main\java\com\artesanias\model\Material.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\controller\OrderController.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\controller\OrderItemController.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\MaterialController.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\model\Order.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\repository\OrderItemRepository.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\dao\MaterialDAO.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\ArtesaniasApplication.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\model\Material.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\model\MaterialLot.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\repository\OrderRepository.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\model\OrderItem.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\controller\MaterialLotController.java
+C:\0lgoi\Programación\GitHub\Artesanías\artesanias-cuero\backend-java\src\main\java\com\artesanias\dao\MaterialLotDAO.java

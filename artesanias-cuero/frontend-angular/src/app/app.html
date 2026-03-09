@@ -1,9 +1,14 @@
 <!-- Barra de navegación -->
-<nav class="navbar navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
   <div class="container">
     <span class="navbar-brand mb-0 h1">Artesanías en Cuero</span>
+    <div class="navbar-nav">
+      <a class="nav-link" routerLink="/materiales">Materiales</a>
+      <a class="nav-link" routerLink="/lotes">Lotes</a>
+    </div>
   </div>
 </nav>
 
-<!-- Listado de materiales -->
+<!-- Contenido principal -->
 <app-material-list></app-material-list>
+<app-material-lot-list></app-material-lot-list>
