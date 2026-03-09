@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { MaterialListComponent } from './components/material-list/material-list';  // ← Ruta exacta
+import { MaterialListComponent } from './components/material-list/material-list';
+import { MaterialLotListComponent } from './components/material-lot-list/material-lot-list';  // ← AGREGAR
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    MaterialListComponent  // ← Solo la clase, sin comillas
+    MaterialListComponent,
+    MaterialLotListComponent  // ← AGREGAR AQUÍ
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

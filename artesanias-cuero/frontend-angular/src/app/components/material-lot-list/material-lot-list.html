@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Lotes de Material</h2>
+
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Tabla de lotes -->
+  <div *ngIf="!loading" class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Código de Lote</th>
+          <th>Material</th>
+          <th>Cantidad Inicial</th>
+          <th>Cantidad Disponible</th>
+          <th>Costo Unit.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lot of lots">
+          <td>{{ lot.id }}</td>
+          <td><strong>{{ lot.lotCode }}</strong></td>
+          <td>Material #{{ lot.materialId }}</td>
+          <td>{{ lot.qtyInitial }} m²</td>
+          <td>
+            <span class="badge" 
+                  [class.bg-success]="lot.qtyOnHand > 0" 
+                  [class.bg-danger]="lot.qtyOnHand === 0">
+              {{ lot.qtyOnHand }} m²
+            </span>
+          </td>
+          <td>${{ lot.unitCost }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mensaje sin resultados -->
+  <div *ngIf="!loading && lots.length === 0" class="alert alert-info">
+    No hay lotes registrados.
+  </div>
+</div>
