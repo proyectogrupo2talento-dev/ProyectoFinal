@@ -1,7 +1,9 @@
 package com.artesanias.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "customer",
@@ -24,13 +26,13 @@ public class Customer {
     @Column(nullable = true)
     private String address;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id, nullable = false")
-    private Customer customer;
-
-    @CreationTimestamp
+     @CreationTimestamp
     @Column (name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+	@JsonIgnore
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Orders> orders;
 
     public Customer(){}
 
@@ -72,14 +74,6 @@ public class Customer {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
 	}
 
 	public LocalDateTime getCreatedAt() {

@@ -1,32 +1,55 @@
 package com.artesanias.model;
+import org.hibernate.annotations.UpdateTimestamp;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
-
+@Entity
+@Table(name = "product_inventory",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"name", "order_id"}))
 public class ProductInventory {
-    private int id;
-    private int product_id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "product_id, nullable = false")
+    private Product product;
+
+    @Column(nullable = false)
     private double qty_on_hand;
-    private Timestamp updated_at;
 
-    // Constructor vacío
-    public ProductInventory() {}
+    public ProductInventory(){}
 
-    // Getters y Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    public int getName() { return product_id; }
-    public void setName(int product_id) { this.product_id = product_id; }
-    public double getCategory() { return qty_on_hand; }
-    public void setCategory(double qty_on_hand) { this.qty_on_hand = qty_on_hand; }
-    public Timestamp getCreatedAt() { return updated_at; }
-    public void setCreatedAt(Timestamp updated_at) { this.updated_at = updated_at; }
-    
-    @Override
-    public String toString() {
-        return "Product{" +
-               "id=" + id +
-               ", name='" + product_id + '\'' +
-               ", price='" + qty_on_hand + '\'' +
-               '}';
+    public Long getId() {
+        return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public double getQty_on_hand() {
+        return qty_on_hand;
+    }
+
+    public void setQty_on_hand(double qty_on_hand) {
+        this.qty_on_hand = qty_on_hand;
+    }
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+
+
 }

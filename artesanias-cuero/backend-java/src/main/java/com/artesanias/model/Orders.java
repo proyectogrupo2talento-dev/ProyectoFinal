@@ -1,14 +1,19 @@
 package com.artesanias.model;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "order",
+@Table(name = "orders",
     uniqueConstraints = @UniqueConstraint(columnNames = {"name", "order_id"}))
 
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +35,11 @@ public class Order {
     @Column (name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public Order(){}
+	@JsonIgnore
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems;
+
+    public Orders(){}
 
 	public Long getId() {
 		return id;
