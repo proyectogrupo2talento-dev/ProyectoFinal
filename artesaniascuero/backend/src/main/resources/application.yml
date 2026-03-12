@@ -1,8 +1,8 @@
 spring:
     datasource:
         url: jdbc:postgresql://localhost:5432/artesanias_cuero
-        username: postgres
-        password: 32tn234hljsae
+        username: 
+        password: 
     jpa:
         hibernate:
             ddl-auto: update

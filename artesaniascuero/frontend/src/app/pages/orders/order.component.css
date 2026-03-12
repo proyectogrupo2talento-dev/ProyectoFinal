@@ -209,6 +209,19 @@ tbody tr:hover{
 	border-radius:5px;
 }
 
+.btn-editar{
+	background:#1976d2;
+	color:#fff;
+	border:none;
+	padding:6px 10px;
+	border-radius:5px;
+	cursor:pointer;
+}
+
+.btn-editar:hover{
+	background:#1565c0;
+}
+
 .mensaje-exito{
 	margin-bottom:15px;
 	padding:10px 12px;

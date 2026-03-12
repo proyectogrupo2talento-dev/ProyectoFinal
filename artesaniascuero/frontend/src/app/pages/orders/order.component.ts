@@ -23,6 +23,8 @@ export class OrderComponent implements OnInit {
 	mensajeExito: string = '';
 	mostrarModal: boolean = false;
 	filtroEstado: string = '';
+	editando: boolean = false;
+	pedidoEditandoId: number | null = null;
 
 	nuevoPedido: any = {
 		order_number: '',
@@ -79,6 +81,9 @@ export class OrderComponent implements OnInit {
 
 	abrirModal(): void {
 		this.mensajeError = '';
+		this.editando = false;
+		this.pedidoEditandoId = null;
+		this.resetFormularioPedido();
 		this.mostrarModal = true;
 	}
 
@@ -111,27 +116,59 @@ export class OrderComponent implements OnInit {
 			notes: this.nuevoPedido.notes
 		};
 
-		this.orderService.createOrder(payload).subscribe({
+		const request$ = this.editando && this.pedidoEditandoId !== null
+			? this.orderService.updateOrder(this.pedidoEditandoId, payload)
+			: this.orderService.createOrder(payload);
+
+		request$.subscribe({
 			next: () => {
+				const wasEditing = this.editando;
 				this.cargarPedidos();
-				this.nuevoPedido = {
-					order_number: '',
-					customer_id: 0,
-					material_id: '',
-					quantity: 0,
-					status: 'PENDIENTE',
-					promised_date: '',
-					notes: ''
-				};
-				this.mensajeExito = 'Pedido creado y stock actualizado correctamente';
+				this.resetFormularioPedido();
+				this.mensajeExito = wasEditing
+					? 'Pedido actualizado correctamente'
+					: 'Pedido creado y stock actualizado correctamente';
 				this.cerrarModal();
 				this.cdr.markForCheck();
 			},
 			error: (err) => {
-				this.mensajeError = err?.error?.message || 'No se pudo crear el pedido';
+				this.mensajeError = err?.error?.message || 'No se pudo guardar el pedido';
 				this.cdr.markForCheck();
 			}
 		});
+	}
+
+	editarPedido(order: Order): void {
+		this.mensajeError = '';
+		this.editando = true;
+		this.pedidoEditandoId = order.id ?? null;
+
+		const materialActual = order.material as Material | { id: number };
+		this.nuevoPedido = {
+			order_number: order.order_number,
+			customer_id: order.customer_id,
+			material_id: materialActual?.id ?? '',
+			quantity: order.quantity,
+			status: order.status,
+			promised_date: order.promised_date,
+			notes: order.notes
+		};
+
+		this.mostrarModal = true;
+	}
+
+	private resetFormularioPedido(): void {
+		this.nuevoPedido = {
+			order_number: '',
+			customer_id: 0,
+			material_id: '',
+			quantity: 0,
+			status: 'PENDIENTE',
+			promised_date: '',
+			notes: ''
+		};
+		this.editando = false;
+		this.pedidoEditandoId = null;
 	}
 
 	get ordersFiltradas(): Order[] {

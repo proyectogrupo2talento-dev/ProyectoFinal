@@ -35,13 +35,7 @@ public class OrderService {
             throw new IllegalStateException("La orden ya existe");
         }
 
-        if (order.getMaterial() == null || order.getMaterial().getId() == null) {
-            throw new IllegalStateException("Debes seleccionar un material para la orden");
-        }
-
-        if (order.getQuantity() <= 0) {
-            throw new IllegalStateException("La cantidad de la orden debe ser mayor a cero");
-        }
+        validateOrderData(order);
 
         Material material = materialRepository.findById(order.getMaterial().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Material no encontrado"));
@@ -69,6 +63,69 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    @Transactional
+    public Order update(Long id, Order order) {
+        Order existingOrder = findById(id);
+
+        Order existingWithSameNumber = orderRepository.findByOrderNumber(order.getOrderNumber());
+        if (existingWithSameNumber != null && !existingWithSameNumber.getId().equals(id)) {
+            throw new IllegalStateException("La orden ya existe");
+        }
+
+        validateOrderData(order);
+
+        Material newMaterial = materialRepository.findById(order.getMaterial().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Material no encontrado"));
+
+        MaterialLot oldMaterialLot = materialLotRepository.findByMaterialId(existingOrder.getMaterial().getId());
+        if (oldMaterialLot == null) {
+            throw new ResourceNotFoundException(
+                    "No existe inventario para el material con id " + existingOrder.getMaterial().getId());
+        }
+
+        List<MaterialLot> lotsToUpdate = new ArrayList<>();
+
+        oldMaterialLot.setQtyOnHand(oldMaterialLot.getQtyOnHand() + existingOrder.getQuantity());
+
+        if (existingOrder.getMaterial().getId().equals(newMaterial.getId())) {
+            if (oldMaterialLot.getQtyOnHand() < order.getQuantity()) {
+                throw new IllegalStateException(
+                        "Stock insuficiente para material " + newMaterial.getName()
+                                + ". Requerido: " + order.getQuantity() + ", Disponible: " + oldMaterialLot.getQtyOnHand());
+            }
+
+            oldMaterialLot.setQtyOnHand(oldMaterialLot.getQtyOnHand() - order.getQuantity());
+            lotsToUpdate.add(oldMaterialLot);
+        } else {
+            MaterialLot newMaterialLot = materialLotRepository.findByMaterialId(newMaterial.getId());
+            if (newMaterialLot == null) {
+                throw new ResourceNotFoundException("No existe inventario para el material con id " + newMaterial.getId());
+            }
+
+            if (newMaterialLot.getQtyOnHand() < order.getQuantity()) {
+                throw new IllegalStateException(
+                        "Stock insuficiente para material " + newMaterial.getName()
+                                + ". Requerido: " + order.getQuantity() + ", Disponible: " + newMaterialLot.getQtyOnHand());
+            }
+
+            newMaterialLot.setQtyOnHand(newMaterialLot.getQtyOnHand() - order.getQuantity());
+            lotsToUpdate.add(oldMaterialLot);
+            lotsToUpdate.add(newMaterialLot);
+        }
+
+        materialLotRepository.saveAll(lotsToUpdate);
+
+        existingOrder.setOrderNumber(order.getOrderNumber());
+        existingOrder.setCustomerId(order.getCustomerId());
+        existingOrder.setMaterial(newMaterial);
+        existingOrder.setQuantity(order.getQuantity());
+        existingOrder.setStatus(order.getStatus());
+        existingOrder.setPromisedDate(order.getPromisedDate());
+        existingOrder.setNotes(order.getNotes());
+
+        return orderRepository.save(existingOrder);
+    }
+
     public List<Order> findAll() {
         return orderRepository.findAll();
     }
@@ -76,6 +133,16 @@ public class OrderService {
     public Order findById(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Orden no encontrada"));
+    }
+
+    private void validateOrderData(Order order) {
+        if (order.getMaterial() == null || order.getMaterial().getId() == null) {
+            throw new IllegalStateException("Debes seleccionar un material para la orden");
+        }
+
+        if (order.getQuantity() <= 0) {
+            throw new IllegalStateException("La cantidad de la orden debe ser mayor a cero");
+        }
     }
 
 }

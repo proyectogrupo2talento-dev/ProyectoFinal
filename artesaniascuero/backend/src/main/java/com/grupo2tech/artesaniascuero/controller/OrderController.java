@@ -32,4 +32,9 @@ public class OrderController {
         return orderService.findById(id);
     }
 
+    @PutMapping("/{id}")
+    public Order updateOrder(@PathVariable Long id, @Valid @RequestBody Order order) {
+        return orderService.update(id, order);
+    }
+
 }
