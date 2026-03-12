@@ -1,5 +1,8 @@
 package com.artesanias.repository;
+import com.artesanias.model.OrderItem;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-public interface OrderItemRepository {
+public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
 }

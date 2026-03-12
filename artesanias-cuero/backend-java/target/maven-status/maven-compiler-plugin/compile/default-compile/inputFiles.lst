@@ -5,6 +5,7 @@ D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\art
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\MaterialController.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\dao\MaterialDAO.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\model\Material.java
+D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\exception\ResourceNotFoundException.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\controller\MaterialLotController.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\controller\WorkOrderController.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\model\Product.java
@@ -13,7 +14,6 @@ D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\art
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\ArtesaniasApplication.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\repository\WorkOrderRepository.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\controller\OrderItemController.java
-D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\repository\Customer.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\model\Orders.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\repository\OrderRepository.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\controller\CustomerController.java
@@ -26,4 +26,5 @@ D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\art
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\service\WorkOrderConsumptionService.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\controller\WorkOrderConsumptionController.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\repository\WorkOrderConsumptionRepository.java
+D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\repository\CustomerRepository.java
 D:\artesanias-cuero_proyecto\artesanias-cuero\backend-java\src\main\java\com\artesanias\service\OrderService.java
