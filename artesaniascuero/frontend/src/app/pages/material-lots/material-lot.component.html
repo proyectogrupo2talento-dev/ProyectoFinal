@@ -1,0 +1,151 @@
+<div class="material-page">
+
+  <div class="material-card">
+    <div class="header-material">
+
+      <div class="header-left">
+        <button class="btn-volver" (click)="volver()">← Volver</button>
+        <h2 class="title">Inventario de Materiales</h2>
+      </div>
+
+      <button class="btn-agregar" (click)="abrirModal()">
+        + Agregar Lote
+      </button>
+
+    </div>
+
+    <div class="filtro">
+
+      <label>Filtrar por estado de inventario</label>
+
+      <select [(ngModel)]="filtroEstado">
+
+        <option value="">Todos</option>
+        <option value="stock-bajo">Stock bajo</option>
+        <option value="stock-ok">Stock suficiente</option>
+
+      </select>
+
+    </div>
+
+    <p class="contador">
+      Mostrando {{ materialLotsFiltrados.length }} de {{ materialLots.length }} lotes
+    </p>
+
+    <div *ngIf="mensajeError" class="mensaje-error">
+      {{ mensajeError }}
+    </div>
+
+    <div *ngIf="mensajeExito" class="mensaje-exito">
+      {{ mensajeExito }}
+    </div>
+
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <table *ngIf="!loading">
+
+      <thead>
+        <tr>
+          <th>Lote</th>
+          <th>Material</th>
+          <th>Categoría</th>
+          <th>Color</th>
+          <th>Stock actual</th>
+          <th>Stock mínimo</th>
+          <th>Costo</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let lot of materialLotsFiltrados">
+
+          <td>{{ lot.id }}</td>
+          <td class="nombre">{{ lot.material.name }}</td>
+          <td>{{ lot.material.category }}</td>
+          <td>{{ lot.color }}</td>
+          <td>{{ lot.qtyOnHand }}</td>
+          <td>{{ lot.material.stock_min }}</td>
+          <td>{{ lot.cost | number:'1.2-2' }}</td>
+
+          <td>
+            <span 
+              class="estado"
+              [class.inactivo]="esStockBajo(lot)"
+              [class.activo]="!esStockBajo(lot)">
+
+              {{ esStockBajo(lot) ? 'Stock bajo' : 'Disponible' }}
+
+            </span>
+          </td>
+
+          <td class="acciones">
+            <button class="btn-tabla editar" (click)="editarMaterialLot(lot)">Editar</button>
+            <button class="btn-tabla eliminar" (click)="eliminarMaterialLot(lot)">Eliminar</button>
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+    <div *ngIf="!loading && materialLotsFiltrados.length === 0" class="alerta">
+      No hay lotes que coincidan con el filtro seleccionado
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModal">
+
+  <div class="modal-container">
+
+    <h3>{{ editando ? 'Editar Lote de Inventario' : 'Agregar Lote de Inventario' }}</h3>
+
+    <form #lotForm="ngForm" (ngSubmit)="guardarMaterialLot(lotForm)">
+
+      <div *ngIf="mensajeError" class="mensaje-error">
+        {{ mensajeError }}
+      </div>
+
+      <div class="form-group">
+        <label>Material</label>
+        <select [(ngModel)]="nuevoLotMaterial.materialId" name="materialId" required>
+          <option value="">Selecciona un material</option>
+          <option *ngFor="let material of materials" [value]="material.id">
+            {{ material.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Color</label>
+        <input type="number" min="0" [(ngModel)]="nuevoLotMaterial.color" name="color" required>
+      </div>
+
+      <div class="form-group">
+        <label>Stock actual</label>
+        <input type="number" step="0.01" min="0" [(ngModel)]="nuevoLotMaterial.qtyOnHand" name="qtyOnHand" required>
+      </div>
+
+      <div class="form-group">
+        <label>Costo</label>
+        <input type="number" step="0.01" min="0" [(ngModel)]="nuevoLotMaterial.cost" name="cost" required>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="submit" class="btn-guardar">Guardar</button>
+        <button type="button" class="btn-cancelar" (click)="cerrarModal()">Cancelar</button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

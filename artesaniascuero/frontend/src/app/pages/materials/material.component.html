@@ -1,0 +1,203 @@
+<div class="material-page">
+
+  <div class="material-card">
+
+    <div class="header-material">
+
+      <div class="header-left">
+        <button class="btn-volver" (click)="volver()">← Volver</button>
+        <h2 class="title">Catálogo de Materiales</h2>
+      </div>
+
+      <button class="btn-agregar" (click)="abrirModal()">
+        + Agregar Material
+      </button>
+
+    </div>
+
+    <div class="filtro">
+
+      <label>Filtrar por categoría</label>
+
+      <select [(ngModel)]="filtroCategoria">
+
+        <option value="">Todas las categorías</option>
+        <option value="Materia prima">Materia prima</option>
+        <option value="Insumos">Insumos</option>
+        <option value="Accesorios">Accesorios</option>
+
+      </select>
+
+    </div>
+
+    <p class="contador">
+      Mostrando {{ materialesFiltrados.length }} de {{ materiales.length }} materiales
+    </p>
+
+    <div *ngIf="mensajeExito" class="mensaje-exito">
+      {{ mensajeExito }}
+    </div>
+
+    <div *ngIf="mensajeError" class="mensaje-error">
+      {{ mensajeError }}
+    </div>
+
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <table *ngIf="!loading">
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Unidad</th>
+          <th>Stock mín</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let m of materialesFiltrados">
+
+          <td>{{ m.id }}</td>
+          <td class="nombre">{{ m.name }}</td>
+          <td>{{ m.category }}</td>
+          <td>{{ m.base_unit }}</td>
+          <td>{{ m.stock_min }}</td>
+
+          <td>
+            <span 
+              class="estado"
+              [class.activo]="m.active"
+              [class.inactivo]="!m.active">
+
+              {{ m.active ? 'Activo' : 'Inactivo' }}
+
+            </span>
+          </td>
+
+          <td class="acciones">
+            <button class="btn-tabla editar" (click)="editarMaterial(m)">Editar</button>
+            <button class="btn-tabla eliminar" (click)="eliminarMaterial(m)">Eliminar</button>
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+    <div *ngIf="!loading && materialesFiltrados.length === 0" class="alerta">
+      No hay materiales que coincidan con el filtro seleccionado
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal-overlay" *ngIf="mostrarModal">
+
+  <div class="modal-container" >
+
+    <h3>{{ editando ? 'Editar Material' : 'Agregar Material' }}</h3>
+
+    <form #materialForm="ngForm" (ngSubmit)="guardarMaterial(materialForm)">
+
+      <div *ngIf="mensajeError" class="mensaje-error">
+        {{ mensajeError }}
+      </div>
+
+      <div class="form-group">
+        <label>Nombre</label>
+        <input 
+          type="text"
+          [(ngModel)]="nuevoMaterial.name"
+          name="name"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Categoría</label>
+
+        <select
+          [(ngModel)]="nuevoMaterial.category"
+          name="category"
+          required>
+
+          <option value="">Selecciona una categoría</option>
+
+          <option value="Materia prima">Materia prima</option>
+          <option value="Insumos">Insumos</option>
+          <option value="Accesorios">Accesorios</option>
+
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label>Unidad base</label>
+
+        <input
+          type="text"
+          [(ngModel)]="nuevoMaterial.base_unit"
+          name="base_unit"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Stock mínimo</label>
+
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          [(ngModel)]="nuevoMaterial.stock_min"
+          name="stock_min"
+          required>
+      </div>
+
+      <div class="form-group checkbox">
+
+        <label>
+
+          <input
+            type="checkbox"
+            [(ngModel)]="nuevoMaterial.active"
+            name="active">
+
+          Activo
+
+        </label>
+
+      </div>
+
+      <div class="modal-buttons">
+
+        <button type="submit" class="btn-guardar">
+          Guardar
+        </button>
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cerrarModal()">
+
+          Cancelar
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

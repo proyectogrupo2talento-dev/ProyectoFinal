@@ -1,0 +1,48 @@
+.home{
+  font-family: Arial;
+  background:linear-gradient(135deg,#5c3d2e,#d7ccc8);
+  min-height:100vh;
+}
+
+header{
+  background:#8B5E3C;
+  color:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header h1{
+  margin:0;
+}
+
+button{
+  background:white;
+  color:#8B5E3C;
+  border:none;
+  padding:8px 12px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.menu{
+  display:flex;
+  gap:20px;
+  padding:30px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:8px;
+  box-shadow:0px 3px 10px rgba(0,0,0,0.1);
+  width:200px;
+  cursor:pointer;
+  transition:0.2s;
+
+}
+
+.card:hover{
+  transform:scale(1.05);
+}

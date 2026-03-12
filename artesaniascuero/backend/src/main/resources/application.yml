@@ -1,0 +1,21 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/artesanias_cuero
+        username: postgres
+        password: 32tn234hljsae
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+server:
+    port: 8080
+
+jwt:
+    secret: ${JWT_SECRET:8f489b742f9dd0d70b6f8f1f04f30a93b9aa0df0df4e8f8ca1f5a8d7c26fe2ab}
+    expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+
+          

@@ -1,0 +1,161 @@
+<div class="material-page">
+
+	<div class="material-card">
+
+		<div class="header-material">
+
+			<div class="header-left">
+				<button class="btn-volver" (click)="volver()">← Volver</button>
+				<h2 class="title">Pedidos</h2>
+			</div>
+
+			<button class="btn-agregar" (click)="abrirModal()">
+				+ Nuevo Pedido
+			</button>
+
+		</div>
+
+		<div class="filtro">
+
+			<label>Filtrar por estado</label>
+
+			<select [(ngModel)]="filtroEstado">
+				<option value="">Todos los estados</option>
+				<option value="PENDIENTE">Pendiente</option>
+				<option value="EN_PROCESO">En proceso</option>
+				<option value="ENTREGADO">Entregado</option>
+			</select>
+
+		</div>
+
+		<p class="contador">
+			Mostrando {{ ordersFiltradas.length }} de {{ orders.length }} pedidos
+		</p>
+
+		<div *ngIf="mensajeExito" class="mensaje-exito">
+			{{ mensajeExito }}
+		</div>
+
+		<div *ngIf="mensajeError" class="mensaje-error">
+			{{ mensajeError }}
+		</div>
+
+		<div *ngIf="loading" class="loading">
+			<div class="spinner"></div>
+		</div>
+
+		<table *ngIf="!loading">
+
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Número</th>
+					<th>Cliente</th>
+					<th>Material</th>
+					<th>Cantidad</th>
+					<th>Estado</th>
+					<th>Promesa</th>
+					<th>Notas</th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+				<tr *ngFor="let order of ordersFiltradas">
+					<td>{{ order.id }}</td>
+					<td class="nombre">{{ order.order_number }}</td>
+					<td>{{ order.customer_id }}</td>
+					<td>{{ materialNombre(order) }}</td>
+					<td>{{ order.quantity }}</td>
+					<td>
+						<span class="estado" [class.activo]="order.status === 'ENTREGADO'" [class.inactivo]="order.status !== 'ENTREGADO'">
+							{{ order.status }}
+						</span>
+					</td>
+					<td>{{ order.promised_date }}</td>
+					<td>{{ order.notes }}</td>
+				</tr>
+
+			</tbody>
+
+		</table>
+
+		<div *ngIf="!loading && ordersFiltradas.length === 0" class="alerta">
+			No hay pedidos que coincidan con el filtro seleccionado
+		</div>
+
+	</div>
+
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModal">
+
+	<div class="modal-container">
+
+		<h3>Crear Pedido</h3>
+
+		<form #orderForm="ngForm" (ngSubmit)="guardarPedido(orderForm)">
+
+			<div *ngIf="mensajeError" class="mensaje-error">
+				{{ mensajeError }}
+			</div>
+
+			<div class="form-group">
+				<label>Número de orden</label>
+				<input type="text" [(ngModel)]="nuevoPedido.order_number" name="order_number" required>
+			</div>
+
+			<div class="form-group">
+				<label>ID cliente</label>
+				<input type="number" min="1" [(ngModel)]="nuevoPedido.customer_id" name="customer_id" required>
+			</div>
+
+			<div class="form-group">
+				<label>Material</label>
+				<select [(ngModel)]="nuevoPedido.material_id" name="material_id" required>
+					<option value="">Selecciona un material</option>
+					<option *ngFor="let material of materials" [value]="material.id">
+						{{ material.name }} (Stock mín: {{ material.stock_min }})
+					</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label>Cantidad</label>
+				<input type="number" min="0.01" step="0.01" [(ngModel)]="nuevoPedido.quantity" name="quantity" required>
+			</div>
+
+			<div class="form-group">
+				<label>Estado</label>
+				<select [(ngModel)]="nuevoPedido.status" name="status" required>
+					<option value="PENDIENTE">Pendiente</option>
+					<option value="EN_PROCESO">En proceso</option>
+					<option value="ENTREGADO">Entregado</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label>Fecha promesa</label>
+				<input type="date" [(ngModel)]="nuevoPedido.promised_date" name="promised_date" required>
+			</div>
+
+			<div class="form-group">
+				<label>Notas</label>
+				<input type="text" [(ngModel)]="nuevoPedido.notes" name="notes" required>
+			</div>
+
+			<div class="modal-buttons">
+
+				<button type="submit" class="btn-guardar">Guardar</button>
+
+				<button type="button" class="btn-cancelar" (click)="cerrarModal()">
+					Cancelar
+				</button>
+
+			</div>
+
+		</form>
+
+	</div>
+
+</div>

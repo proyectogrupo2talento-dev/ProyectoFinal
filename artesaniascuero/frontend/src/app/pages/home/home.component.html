@@ -1,0 +1,33 @@
+<div class="home">
+  <header class="home-header">
+    <h1>Artesanias Cuero</h1>
+    <p class="subtitle">Bienvenido a dashboard de artesanías de cuero</p>
+    <button class="btn btn-primary" (click)="logout()">Cerrar sesión</button>
+  </header>
+
+  <div class="menu">
+
+    <div class="card" routerLink="/material">
+      <h3>Productos</h3>
+      <p>Gestionar productos de cuero</p>
+    </div>
+
+    <div class="card" routerLink="/material-lot">
+      <h3>Materiales</h3>
+      <p>Inventario de materiales</p>
+    </div>
+
+    <div class="card" routerLink="/orders">
+      <h3>Pedidos</h3>
+      <p>Ver pedidos de clientes</p>
+    </div>
+
+        <!-- SOLO ADMIN -->
+    <div class="card" *ngIf="role === 'ADMIN'" routerLink="/users">
+      <h3>Usuarios</h3>
+      <p>Administrar usuarios</p>
+    </div>
+
+  </div>
+
+</div>
