@@ -37,4 +37,9 @@ public class OrderController {
         return orderService.update(id, order);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteOrder(@PathVariable Long id) {
+        orderService.delete(id);
+    }
+
 }

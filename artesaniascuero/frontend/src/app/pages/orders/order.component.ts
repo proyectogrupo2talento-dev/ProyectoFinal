@@ -157,6 +157,33 @@ export class OrderComponent implements OnInit {
 		this.mostrarModal = true;
 	}
 
+	eliminarPedido(order: Order): void {
+		if (!order.id) {
+			this.mensajeError = 'Pedido invalido';
+			return;
+		}
+
+		const confirmado = confirm(`¿Eliminar el pedido ${order.order_number}? Esta accion devolvera el stock.`);
+		if (!confirmado) {
+			return;
+		}
+
+		this.mensajeError = '';
+		this.mensajeExito = '';
+
+		this.orderService.deleteOrder(order.id).subscribe({
+			next: () => {
+				this.mensajeExito = 'Pedido eliminado y stock devuelto correctamente';
+				this.cargarPedidos();
+				this.cdr.markForCheck();
+			},
+			error: (err) => {
+				this.mensajeError = err?.error?.message || 'No se pudo eliminar el pedido';
+				this.cdr.markForCheck();
+			}
+		});
+	}
+
 	private resetFormularioPedido(): void {
 		this.nuevoPedido = {
 			order_number: '',

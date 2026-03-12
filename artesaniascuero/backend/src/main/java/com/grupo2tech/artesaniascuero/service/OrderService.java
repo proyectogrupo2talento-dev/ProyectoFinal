@@ -135,6 +135,22 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Orden no encontrada"));
     }
 
+    @Transactional
+    public void delete(Long id) {
+        Order order = findById(id);
+
+        MaterialLot materialLot = materialLotRepository.findByMaterialId(order.getMaterial().getId());
+        if (materialLot == null) {
+            throw new ResourceNotFoundException(
+                    "No existe inventario para el material con id " + order.getMaterial().getId());
+        }
+
+        materialLot.setQtyOnHand(materialLot.getQtyOnHand() + order.getQuantity());
+        materialLotRepository.save(materialLot);
+
+        orderRepository.delete(order);
+    }
+
     private void validateOrderData(Order order) {
         if (order.getMaterial() == null || order.getMaterial().getId() == null) {
             throw new IllegalStateException("Debes seleccionar un material para la orden");
